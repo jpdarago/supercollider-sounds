@@ -17,18 +17,30 @@ SynthDef.new(\bufplay, {
 }).add;
 );
 
+Synth.new(\bufplay, [\buf, bongos[2].bufnum]);
+
 (
 Pdef(
 	\rhythm,
 	Pbind(
 		\instrument, \bufplay,
 		\dur, Prand([1/16],inf),
-		\buf, Pwrand(bongos, [16,8,4,2,1].reverse.normalizeSum, inf),
+		\buf, Prand(bongos, inf),
 		\stretch, 1.875,
-		\rate, Pbjorklund(9,16,inf),
-		\amp, 1,
+		\rate, 1,
+		\amp, Pbjorklund(11,16,inf) * 1.2,
 	);
-).play
+).play(quant:1.875)
 )
 
+)
+
+(
+Pbind(
+	\scale,Scale.minor,
+	\degree, Prand([0,2,4,6], inf),
+	\stretch, 1.875,
+	\amp, Pbjorklund(9,16) * 0.2,
+	\dur, 1/16,
+).play;
 )
