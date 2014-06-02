@@ -19,7 +19,6 @@
 
         var rectSpec = {};
         var defaultRect = {
-            scale: 0.0,
             color: [255,255,255,1],
             remaining: 0,
             duration: 1
@@ -33,7 +32,6 @@
             var duration = data.duration - 30;
 
             rectSpec[note] = {
-                scale: 0.4,
                 color: randomColorWithAlpha(1.0),
                 duration: 2*duration,
                 remaining: 2*duration
@@ -64,10 +62,10 @@
             color = applyAlphaFactor(color, frac);
 
             return {
-                x: x-(scale/2)*rectw,
-                y: y-(scale/2)*recth,
-                width: (1+scale)*rectw,
-                height: (1+scale)*recth,
+                x: x,
+                y: y,
+                width: rectw,
+                height: recth,
                 style: "rgba(" + color.join(",") + ")"
             }
         }

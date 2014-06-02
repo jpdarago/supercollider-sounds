@@ -1,9 +1,18 @@
 (
 var n = NetAddr("127.0.0.1", 3333);
 r = Routine({
+	var st = Pseq([45,46,47,48,54,55,56,57],inf).asStream;
 	loop({
-		v = 40.rrand(90);
+		var v = st.next;
 		n.sendMsg("/note",v,75);
+		v.yield
+	});
+});
+
+q = Routine({
+	loop({
+		var v = 60.rrand(80).round(6);
+		n.sendMsg("/note",v,150);
 		v.yield
 	});
 });
@@ -42,5 +51,16 @@ Pbind(
 ).play
 )
 
+(
+TempoClock.default.tempo = 2;
+Pbind(
+	\instrument,\prophet5pwmstrings,
+	\midinote,q.asStream,
+	\dur,700/1000,
+	\lfowidth,Pn(Pseries(0.0,0.025,7),inf),
+	\lforate,Pn(Pseries(2,1,11),inf),
+	\rq,Pn(Pseries(0.9,-0.1,5),inf)
+).play
+)
 
 )
